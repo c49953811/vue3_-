@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'Layout'
 }
 </script>
 <style lang="less" scoped></style>
