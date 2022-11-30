@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import cart from './models/cart'
 import user from './models/user'
-import catrgory from './models/catrgory'
+import category from './models/category'
 export default createStore({
   state: {},
   getters: {},
@@ -11,7 +11,7 @@ export default createStore({
   modules: {
     cart,
     user,
-    catrgory
+    category
   },
   // 配置插件
   plugins: [
