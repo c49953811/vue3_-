@@ -13,6 +13,11 @@ const routes = [
         component: () => import('@/views/category/sub')
       }
     ]
+  },
+  {
+    path: '/:catchAll(.*)',
+    hidden: true,
+    component: () => import('@/views/error/404.vue') // 这个是我自己的路径
   }
 ]
 
