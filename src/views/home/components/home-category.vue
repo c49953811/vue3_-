@@ -99,7 +99,6 @@ const categoryId = ref(null)
 const currCategory = computed(() => {
   return menuList.value.find((item) => item.id === categoryId.value)
 })
-console.log(currCategory, 'currCategory')
 // 获取品牌数据
 findBrand().then((data) => {
   brand.brands = data.result

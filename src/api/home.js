@@ -29,3 +29,17 @@ export const findNew = () => {
 export const findHot = () => {
   return request('home/hot', 'get')
 }
+/**
+ * 获取商品板块
+ * @returns
+ */
+export const findGoods = () => {
+  return request('home/goods', 'get')
+}
+/**
+ * 获取最新专辑
+ * @returns
+ */
+export const findSpecial = () => {
+  return request('home/special', 'get')
+}
