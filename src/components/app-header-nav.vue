@@ -4,7 +4,7 @@
     <li
       v-for="item in list"
       :key="item.id"
-      @mouseenter="show(item.id)"
+      @mousemove="show(item.id)"
       @mouseleave="hide(item.id)"
     >
       <router-link @click="hide(item.id)" :to="`/category/${item.id}`">{{
@@ -13,7 +13,7 @@
       <div class="layer" :class="{ open: item.open }">
         <ul>
           <li v-for="sub in item.children" :key="sub.id">
-            <RouterLink @click="hide(item.id)" :to="`/category/sub/${item.id}`">
+            <RouterLink @click="hide(item.id)" :to="`/category/sub/${sub.id}`">
               <img :src="sub.picture" alt="" />
               <p>{{ sub.name }}</p>
             </RouterLink>
