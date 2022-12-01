@@ -4,7 +4,7 @@
       <!-- 面包屑 mode="out-in" -->
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
-        <transition name="fade-right">
+        <transition name="fade-right" mode="out-in">
           <XtxBreadItem :key="TopCategory.id">{{
             TopCategory.name
           }}</XtxBreadItem>
