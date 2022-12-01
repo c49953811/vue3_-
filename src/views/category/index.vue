@@ -79,9 +79,7 @@ watch(
   (newVal) => {
     // newVal && gidSubList()
     // 如果路由有值，且点击的是一级类目（排除点击二级类目发请求）
-    if (newVal && `/category/${newVal}` === route.path) {
-      gidSubList()
-    }
+    if (newVal && `/category/${newVal}` === route.path) gidSubList()
   },
   { immediate: true }
 )
