@@ -4,7 +4,7 @@
       <!-- 面包屑 mode="out-in" -->
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
-        <transition name="fade-right">
+        <transition name="fade-right" mode="out-in">
           <XtxBreadItem :key="TopCategory.id">{{
             TopCategory.name
           }}</XtxBreadItem>
@@ -79,9 +79,7 @@ watch(
   (newVal) => {
     // newVal && gidSubList()
     // 如果路由有值，且点击的是一级类目（排除点击二级类目发请求）
-    if (newVal && `/category/${newVal}` === route.path) {
-      gidSubList()
-    }
+    if (newVal && `/category/${newVal}` === route.path) gidSubList()
   },
   { immediate: true }
 )

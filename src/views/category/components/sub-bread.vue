@@ -4,7 +4,7 @@
     <XtxBreadItem v-if="category.top" :to="`/category/${category.top.id}`">{{
       category.top.name
     }}</XtxBreadItem>
-    <Transition name="fade-right">
+    <Transition name="fade-right" mode="out-in">
       <XtxBreadItem :key="category.sub.id" v-if="category.sub">{{
         category.sub.name
       }}</XtxBreadItem>

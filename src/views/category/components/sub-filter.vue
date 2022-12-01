@@ -5,7 +5,7 @@
       <div class="head">品牌：</div>
       <div class="body">
         <a
-          @click="fliterData.brands.selectedBrand = item.id"
+          @click="fliterData.selectedBrand = item.id"
           :class="{ active: item.id === fliterData.brands.selectedBrand }"
           href="javascript:;"
           v-for="item in fliterData.brands"
@@ -49,27 +49,26 @@ watch(
   () => route.params.id,
   (newVal) => {
     if (newVal && `/category/sub/${newVal}` === route.path) {
+      console.log('111111111111111')
       flitLoading.value = true
       // 获取数据
-      findSubCategoryFilter(route.params.id).then(
-        (data) => {
-          // 给每一组筛选条件 添加全部选项 =》全部就是没有筛选条件
-          // 给每一组数据加上一个选中的id
-          data.result.brands.selectedBrand = null
-          // 1 品牌
-          data.result.brands.unshift({ id: null, name: '全部' })
-          // 2 属性
-          data.result.saleProperties.forEach((item) => {
-            item.selectedProp = null
-            item.properties.unshift({ id: null, name: '全部' })
-          })
-          fliterData.value = data.result
-          flitLoading.value = false
-        },
-        { immediate: true }
-      )
+      findSubCategoryFilter(route.params.id).then((data) => {
+        // 给每一组筛选条件 添加全部选项 =》全部就是没有筛选条件
+        // 给每一组数据加上一个选中的id
+        data.result.selectedBrand = null
+        // 1 品牌
+        data.result.brands.unshift({ id: null, name: '全部' })
+        // 2 属性
+        data.result.saleProperties.forEach((item) => {
+          item.selectedProp = null
+          item.properties.unshift({ id: null, name: '全部' })
+        })
+        fliterData.value = data.result
+        flitLoading.value = false
+      })
     }
-  }
+  },
+  { immediate: true }
 )
 </script>
 <style scoped lang="less">
