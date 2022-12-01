@@ -92,6 +92,11 @@ onUnmounted(() => {
   stop()
 })
 </script>
+<script>
+export default {
+  name: 'XtxCarousel'
+}
+</script>
 <style scoped lang="less">
 .xtx-carousel {
   width: 100%;

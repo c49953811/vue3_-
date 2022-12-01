@@ -13,6 +13,10 @@
   <HomeHot />
   <!-- 品牌组件 -->
   <HomeBrand />
+  <!-- 产品区块 -->
+  <HomeProduct />
+  <!-- 最新专题 -->
+  <HomeSpecial />
 </template>
 
 <script setup name="HomePage">
@@ -21,6 +25,8 @@ import HomeBanner from './components/home-banner'
 import HomeNew from './components/home-new'
 import HomeHot from './components/home-hot'
 import HomeBrand from './components/home-brand.vue'
+import HomeProduct from './components/home-product.vue'
+import HomeSpecial from './components/home-special.vue'
 </script>
 
 <style lang="less" scoped></style>
