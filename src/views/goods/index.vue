@@ -4,20 +4,24 @@
       <!-- 面包屑 -->
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
-        <XtxBreadItem
-          v-if="goods"
-          :to="`/category/${goods.categories[1].id}`"
-          >{{ goods.categories[1].name }}</XtxBreadItem
-        >
-        <XtxBreadItem
-          v-if="goods"
-          :to="`/category/sub/${goods.categories[0].id}`"
-          >{{ goods.categories[0].name }}</XtxBreadItem
-        >
-        <XtxBreadItem v-if="goods" to="/">{{ goods.name }}</XtxBreadItem>
+        <XtxBreadItem :to="`/category/${goods.categories[1].id}`">{{
+          goods.categories[1].name
+        }}</XtxBreadItem>
+        <XtxBreadItem :to="`/category/sub/${goods.categories[0].id}`">{{
+          goods.categories[0].name
+        }}</XtxBreadItem>
+        <XtxBreadItem to="/">{{ goods.name }}</XtxBreadItem>
       </XtxBread>
       <!-- 商品信息 -->
-      <div class="goods-info"></div>
+      <div class="goods-info">
+        <div class="media">
+          <GoodsImage :images="goods.mainPictures" />
+          <GoodsSales />
+        </div>
+        <div class="spec">
+          <GoodsName :goods="goods" />
+        </div>
+      </div>
       <!-- 商品推荐 -->
       <GoodsRelevant />
       <!-- 商品详情 -->
@@ -40,10 +44,12 @@ import { findGoods } from '@/api/product'
 import { nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import GoodsRelevant from './components/goods-relevant'
-
+import GoodsImage from './components/goods-image'
+import GoodsSales from './components/goods-sales'
+import GoodsName from './components/goods-name'
 export default {
   name: 'XtxGoodsPage',
-  components: { GoodsRelevant },
+  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName },
   setup() {
     const goods = useGoods()
     return { goods }
@@ -79,6 +85,16 @@ const useGoods = () => {
 .goods-info {
   min-height: 600px;
   background: #fff;
+  display: flex;
+  .media {
+    width: 580px;
+    height: 600px;
+    padding: 30px 50px;
+  }
+  .spec {
+    flex: 1;
+    padding: 30px 30px 30px 0;
+  }
 }
 .goods-footer {
   display: flex;
