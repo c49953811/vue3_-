@@ -5,8 +5,8 @@
       <div class="head">品牌：</div>
       <div class="body">
         <a
-          @click="fliterData.selectedBrand = item.id"
-          :class="{ active: item.id === fliterData.brands.selectedBrand }"
+          @click="changeBrand(item.id)"
+          :class="{ active: item.id === fliterData.selectedBrand }"
           href="javascript:;"
           v-for="item in fliterData.brands"
           :key="item.id"
@@ -15,10 +15,10 @@
       </div>
     </div>
     <div class="item" v-for="item in fliterData.saleProperties" :key="item.id">
-      <div class="head">品牌：</div>
+      <div class="head">{{ item.name }}：</div>
       <div class="body">
         <a
-          @click="item.selectedProp = prop.id"
+          @click="changeProp(item, prop.id)"
           :class="{ active: prop.id === item.selectedProp }"
           href="javascript:;"
           v-for="prop in item.properties"
@@ -38,9 +38,9 @@
 </template>
 <script setup name="SubFilter">
 import { findSubCategoryFilter } from '@/api/category'
-import { ref, watch } from 'vue'
+import { ref, watch, defineEmits } from 'vue'
 import { useRoute } from 'vue-router'
-
+const emit = defineEmits(['filter-change'])
 const route = useRoute()
 // 监听二级类目id的变化筛选数据
 const fliterData = ref(null)
@@ -49,7 +49,6 @@ watch(
   () => route.params.id,
   (newVal) => {
     if (newVal && `/category/sub/${newVal}` === route.path) {
-      console.log('111111111111111')
       flitLoading.value = true
       // 获取数据
       findSubCategoryFilter(route.params.id).then((data) => {
@@ -70,6 +69,39 @@ watch(
   },
   { immediate: true }
 )
+
+// 获取筛选参数的函数
+const getFilterParams = () => {
+  const obj = { brandId: null, attrs: [] }
+  // 品牌
+  obj.brandId = fliterData.value.selectedBrand
+  // 属性
+  fliterData.value.saleProperties.forEach((item) => {
+    // 默认参数null,只要修改item.selectedProp就有值
+    if (item.selectedProp) {
+      // 获得propertyName
+      const prop = item.properties.find((prop) => prop.id === item.selectedProp)
+      // 例子 groupName=>颜色 propertyName=》蓝色
+      obj.attrs.push({ groupName: item.name, propertyName: prop.name })
+    }
+  })
+  // 参考数据 {brandId:'',attrs:[{groupName:'',propertyName:''},{},...]}
+  if (obj.attrs.length === 0) obj.attrs = null
+  return obj
+}
+
+// 记录当前选择的品牌
+const changeBrand = (BrandId) => {
+  if (fliterData.value.selectedBrand === BrandId) return
+  fliterData.value.selectedBrand = BrandId
+  emit('filter-change', getFilterParams())
+}
+// 记录选择的属性
+const changeProp = (item, PropId) => {
+  if (item.selectedProp === PropId) return
+  item.selectedProp = PropId
+  emit('filter-change', getFilterParams())
+}
 </script>
 <style scoped lang="less">
 // 筛选区
