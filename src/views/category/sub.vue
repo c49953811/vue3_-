@@ -66,7 +66,7 @@ const getData = () => {
 watch(
   () => route.params.id,
   (newVal) => {
-    if (newVal && route.path === '/category/sub/' + newVal) {
+    if (newVal && route.path === `/category/sub/${newVal}`) {
       goodsList.value = [] // 列表空导致加载更多组件进入可视区，重新加载数据
       reqParams = {
         page: 1,
