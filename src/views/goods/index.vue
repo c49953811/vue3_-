@@ -18,8 +18,21 @@
           <GoodsImage :images="goods.mainPictures" />
           <GoodsSales />
         </div>
+        <!-- 名字区组件 -->
         <div class="spec">
           <GoodsName :goods="goods" />
+          <!-- 规格组件 -->
+          <GoodsSku
+            :goods="goods"
+            skuId="1369155868389543937"
+            @change="changeSku"
+          />
+          <!-- 数量选择组件 -->
+          <XtxNumbox v-model="num" label="数量" :max="goods.inventory" />
+          <!-- 加入购物车组件 -->
+          <XtxButton type="primary" style="margin-top: 20px"
+            >加入购物车</XtxButton
+          >
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -47,12 +60,22 @@ import GoodsRelevant from './components/goods-relevant'
 import GoodsImage from './components/goods-image'
 import GoodsSales from './components/goods-sales'
 import GoodsName from './components/goods-name'
+import GoodsSku from './components/goods-sku'
 export default {
   name: 'XtxGoodsPage',
-  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName },
+  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku },
   setup() {
     const goods = useGoods()
-    return { goods }
+    const changeSku = (sku) => {
+      // 修改商品现价 原价 库存信息
+      if (sku.skuId) {
+        goods.value.price = sku.price
+        goods.value.oldPrice = sku.oldPrice
+        goods.value.inventory = sku.inventory
+      }
+    }
+    const num = ref(1)
+    return { goods, changeSku, num }
   }
 }
 
