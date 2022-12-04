@@ -8,7 +8,6 @@
 </template>
 
 <script setup name="GoodsItem">
-import { defineProps } from 'vue'
 defineProps({
   goods: {
     type: Object,

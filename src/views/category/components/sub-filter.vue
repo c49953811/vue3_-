@@ -38,7 +38,7 @@
 </template>
 <script setup name="SubFilter">
 import { findSubCategoryFilter } from '@/api/category'
-import { ref, watch, defineEmits } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 const emit = defineEmits(['filter-change'])
 const route = useRoute()
