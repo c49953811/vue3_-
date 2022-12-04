@@ -48,7 +48,7 @@
 </template>
 
 <script setup name="XtxCarousel">
-import { defineProps, ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 const props = defineProps({
   // 轮播图数据
   sliders: {

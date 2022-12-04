@@ -15,7 +15,6 @@
 </template>
 
 <script setup name="HomePanel">
-import { defineProps } from 'vue'
 defineProps({
   // 标题
   title: {

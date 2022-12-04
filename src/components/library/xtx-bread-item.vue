@@ -6,7 +6,6 @@
 </template>
 
 <script setup name="XtxBreadItem">
-import { defineProps } from 'vue'
 defineProps({
   to: {
     type: [String, Object],

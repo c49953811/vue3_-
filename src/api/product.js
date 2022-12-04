@@ -23,3 +23,30 @@ export const findRelevantGoods = (id, limit = 16) => {
 export const findGoodsHot = ({ id, type, limit = 3 }) => {
   return request('/goods/hot', 'get', { id, type, limit })
 }
+/**
+ * 获取商品的评价统计信息
+ * @param {String} id - 商品ID
+ */
+export const findGoodsCommentInfo = (id) => {
+  // return request(`/goods/${id}/evaluate`, 'get')
+  // axios遇到http https开头的地址不会加上基准地址
+  return request(
+    `https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate`,
+    'get'
+  )
+}
+/**
+ * 查询商品评价列表
+ * @param {String} id 商品ID
+ * @param {Object} params
+ * @returns
+ */
+export const findGoodsCommentList = (id, params) => {
+  // return request(`/goods/${id}/evaluate`, 'get')
+  // axios遇到http https开头的地址不会加上基准地址
+  return request(
+    `https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate/page`,
+    'get',
+    params
+  )
+}
