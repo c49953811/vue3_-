@@ -90,12 +90,14 @@ const initDefaultSelected = (goods, skuId) => {
   // 1 找到skuId对应的sku数据
   const sku = goods.skus.find((sku) => sku.id === skuId)
   // 2 遍历所有按钮，按钮的值和sku记录的值相同就是选中
-  goods.specs.forEach((item, index) => {
-    const val = item.values.find(
-      (val) => val.name === sku.specs[index].valueName
-    )
-    val.selected = true
-  })
+  if (sku) {
+    goods.specs.forEach((item, index) => {
+      const val = item.values.find(
+        (val) => val.name === sku.specs[index].valueName
+      )
+      val.selected = true
+    })
+  }
 }
 export default {
   name: 'GoodsSku',
