@@ -45,6 +45,9 @@ export const userQQBindCode = (mobile) => {
   return request('/login/social/code', 'get', { mobile })
 }
 
+// 手机号解绑
+// https://pcapi-xiaotuxian-front.itheima.net/login/social/unbind?mobile=13666666666
+
 /**
  * QQ登录-绑定帐号
  * @param {String} unionId - QQ唯一标识，openId
