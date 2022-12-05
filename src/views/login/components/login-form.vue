@@ -97,10 +97,14 @@
       <a @click="login" href="javascript:;" class="btn">登录</a>
     </Form>
     <div class="action">
-      <img
-        src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
-        alt=""
-      />
+      <a
+        href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback"
+      >
+        <img
+          src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
+          alt=""
+        />
+      </a>
       <div class="url">
         <a href="javascript:;">忘记密码</a>
         <a href="javascript:;">免费注册</a>
@@ -114,6 +118,7 @@ import { reactive, ref, watch, onUnmounted } from 'vue'
 import { Form, Field } from 'vee-validate'
 import schema from '@/utils/vee-validate-schema'
 import Message from '@/components/library/Message.js'
+// import QC from 'qc'
 import {
   userAccountLogin,
   userMobileLoginMsg,
@@ -126,14 +131,20 @@ export default {
   name: 'LongFrom',
   components: { Form, Field },
   setup() {
+    // onMounted(() => {
+    //   // 组件渲染完毕，使用QC生成QQ登录按钮
+    //   QC.Login({
+    //     btnId: 'qqLoginBtn'
+    //   })
+    // })
     // 切换短信登陆
     const isMsgLogin = ref(false)
     // 表单数据对象
     const form = reactive({
       isAgree: true,
-      account: 'zhousg', // null,
-      password: '123456', // null,
-      mobile: '13197981502', // null,
+      account: null,
+      password: null,
+      mobile: null,
       code: null
     })
     // 校验规则
