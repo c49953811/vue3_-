@@ -19,6 +19,14 @@ const routes = [
     ]
   },
   {
+    path: '/login',
+    component: () => import('@/views/login')
+  },
+  {
+    path: '/login/callback',
+    component: () => import('@/views/login/callback.vue')
+  },
+  {
     path: '/:catchAll(.*)',
     hidden: true,
     component: () => import('@/views/error/404.vue') // 这个是我自己的路径
