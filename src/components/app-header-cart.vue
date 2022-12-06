@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <!-- 购物车图标 -->
-    <RouterLink to="/cary" class="curr">
+    <RouterLink to="/cart" class="curr">
       <i class="iconfont icon-cart"></i
       ><em>{{ $store.getters['cart/validTotal'] }}</em>
     </RouterLink>
@@ -16,7 +16,7 @@
           v-for="item in $store.getters['cart/validList']"
           :key="item.skuId"
         >
-          <RouterLink to="">
+          <RouterLink :to="`/product/${item.id}`">
             <img :src="item.picture" alt="" />
             <div class="center">
               <p class="name ellipsis-2">
@@ -40,7 +40,9 @@
           <p>共 {{ $store.getters['cart/validTotal'] }}件商品</p>
           <p>&yen;{{ $store.getters['cart/validAmount'] }}</p>
         </div>
-        <XtxButton type="plain">去购物车结算</XtxButton>
+        <XtxButton @click="$router.push('/cart')" type="plain"
+          >去购物车结算</XtxButton
+        >
       </div>
     </div>
   </div>

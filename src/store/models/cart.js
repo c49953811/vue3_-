@@ -27,6 +27,37 @@ export default {
           0
         ) / 100
       )
+    },
+    // 无效商品列表
+    inValidList(state) {
+      return state.list.filter(
+        (goods) => goods.stock <= 0 || !goods.isEffective
+      )
+    },
+    // 已选商品列表 ==>从有效商品列表中
+    selectedList(state, getters) {
+      return getters.validList.filter((item) => item.selected)
+    },
+    // 已选商品总件数 =->从已选商品列表中
+    selectedTotal(state, getters) {
+      return getters.selectedList.reduce((p, c) => p + c.count, 0)
+    },
+    // 已选商品总金额
+    selectedAmount(state, getters) {
+      return (
+        getters.selectedList.reduce(
+          (p, c) => p + parseInt(c.nowPrice * 100) * c.count,
+          0
+        ) / 100
+      )
+    },
+    // 是否全选
+    isCheckAll(state, getters) {
+      //      已选择商品                     有效商品
+      return (
+        getters.validList.length !== 0 &&
+        getters.selectedList.length === getters.validList.length
+      )
     }
   },
   mutations: {
@@ -53,7 +84,9 @@ export default {
       const updateGoods = state.list.find((item) => item.skuId === goods.skuId)
       for (const key in goods) {
         if (
-          goods[key !== undefined && goods[key] !== null && goods[key] !== '']
+          goods[key] !== undefined &&
+          goods[key] !== null &&
+          goods[key] !== ''
         ) {
           updateGoods[key] = goods[key]
         }
@@ -97,7 +130,7 @@ export default {
               // 更新本地购物车
               dataList.forEach((data, i) => {
                 ctx.commit('updateCart', {
-                  skuID: ctx.state.list[i].skuId,
+                  skuId: ctx.state.list[i].skuId,
                   ...data.result
                 })
               })
@@ -118,6 +151,33 @@ export default {
         } else {
           // 未登录
           ctx.commit('deleteCart', payload)
+          resolve()
+        }
+      })
+    },
+    // 修改购物车商品
+    updateCart(ctx, payload) {
+      // payload 必须有skuId 可能有selected  count
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 已登录
+        } else {
+          // 未登录
+          ctx.commit('updateCart', payload)
+          resolve()
+        }
+      })
+    },
+    // 全选按钮
+    checkAllCart(ctx, selected) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 已登录
+        } else {
+          // 未登录
+          ctx.getters.validList.forEach((goods) => {
+            ctx.commit('updateCart', { skuId: goods.skuId, selected })
+          })
           resolve()
         }
       })

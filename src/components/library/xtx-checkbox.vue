@@ -38,7 +38,7 @@ export default {
       const newVal = !checked.value
       // 通知父组件
       checked.value = newVal
-      // emit('change',newVal)  =>让组件支持change事件
+      emit('change', newVal) // =>让组件支持change事件
     }
     return { checked, changeChecked }
   }
