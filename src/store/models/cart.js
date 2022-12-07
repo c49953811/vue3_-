@@ -181,6 +181,48 @@ export default {
           resolve()
         }
       })
+    },
+    // 批量删除 isClear =》ture 清空失效商品
+    batchDeleteCart(ctx, isClear) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 已登录
+        } else {
+          // 未登录
+          // 找出选中的商品，调用删除
+          ctx.getters[isClear ? 'inValidList' : 'selectedList'].forEach(
+            (item) => {
+              ctx.commit('deleteCart', { skuId: item.skuId })
+            }
+          )
+          resolve()
+        }
+      })
+    },
+    // 修改规格
+    updateCartSku(ctx, { oldSkuId, newSku }) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 已登录
+        } else {
+          // 未登录
+          // 找出旧的商品信息，删除旧的，
+          const oldGoods = ctx.state.list.find(
+            (item) => item.skuId === oldSkuId
+          )
+          ctx.commit('deleteCart', oldSkuId)
+          // 根据新的sku和旧的商品信息，合并新信息，添加新的商品
+          const {
+            skuId,
+            price: nowPrice,
+            specsText: attrsText,
+            inventory: stock
+          } = newSku
+          const newGoods = { ...oldGoods, skuId, nowPrice, attrsText, stock }
+          ctx.commit('insertCart', newGoods)
+          resolve()
+        }
+      })
     }
   }
 }
