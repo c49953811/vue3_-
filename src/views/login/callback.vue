@@ -72,10 +72,14 @@ export default {
               nickname,
               token
             })
-            // 跳转到来源页
-            router.push(store.state.user.redirectUrl)
-            // 成功提示
-            Message({ type: 'success', text: '登陆成功!' })
+            // 合并本地购物车
+            store.dispatch('cart/mergeCart').then(() => {
+              // 跳转
+              // 跳转到来源页
+              router.push(store.state.user.redirectUrl)
+              // 成功提示
+              Message({ type: 'success', text: '登陆成功!' })
+            })
           })
           .catch((e) => {
             // 登录失败：没有和小兔仙绑定=》有账户没绑定，没账户没绑定

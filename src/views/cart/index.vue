@@ -153,7 +153,7 @@
             @change="checkAll"
             >全选</XtxCheckbox
           >
-          <a @click="batchDeleteCart" href="javascript:;">删除商品</a>
+          <a @click="batchDeleteCart()" href="javascript:;">删除商品</a>
           <a href="javascript:;">移入收藏夹</a>
           <a @click="batchDeleteCart(true)" href="javascript:;">清空失效商品</a>
         </div>
@@ -161,7 +161,7 @@
           共 {{ $store.getters['cart/validTotal'] }} 件商品，已选择
           {{ $store.getters['cart/selectedTotal'] }} 件，商品合计：
           <span class="red">¥{{ $store.getters['cart/selectedAmount'] }}</span>
-          <XtxButton type="primary">下单结算</XtxButton>
+          <XtxButton @click="checkout()" type="primary">下单结算</XtxButton>
         </div>
       </div>
       <!-- 猜你喜欢 -->
@@ -170,11 +170,13 @@
   </div>
 </template>
 <script>
+import Message from '@/components/library/Message.js'
 import GoodRelevant from '@/views/goods/components/goods-relevant'
 import CartNone from './components/cart-none.vue'
 import CartSku from './components/cart-sku.vue'
 import { useStore } from 'vuex'
 import Confirm from '@/components/library/confirm.js'
+import { useRouter } from 'vue-router'
 export default {
   name: 'XtxCartPage',
   components: { GoodRelevant, CartNone, CartSku },
@@ -216,13 +218,33 @@ export default {
     const updateCartSku = (oldSkuId, newSku) => {
       store.dispatch('cart/updateCartSku', { oldSkuId, newSku })
     }
+    // 结算
+    const router = useRouter()
+    const checkout = () => {
+      // 判断是否选中商品，且提示
+      if (store.getters['cart/selectedList'].lenth === 0) {
+        return Message({ text: '至少选中一件商品才能结算' })
+      }
+      if (!store.state.user.profile.token) {
+        // 弹出确认框，提示下单结算需要登陆
+        Confirm({ text: '下单结算需要登录，您是否去登录？' })
+          .then(() => {
+            router.push('/member/checkout')
+          })
+          .catch((e) => {})
+      } else {
+        router.push('/member/checkout')
+      }
+      // 使用导航守卫，遇见需要登录的路由跳转，拦截到登陆页码
+    }
     return {
       checkOne,
       checkAll,
       deleteCart,
       batchDeleteCart,
       updateCount,
-      updateCartSku
+      updateCartSku,
+      checkout
     }
   }
 }
