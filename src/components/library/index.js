@@ -3,6 +3,7 @@
 // vue2.0插件写法要素：导出一个对象，有install函数，默认传入了Vue构造函数，Vue基础之上扩展
 // vue3.0插件写法要素：导出一个对象，有install函数，默认传入了app应用实例，app基础之上扩展
 import Message from '@/components/library/Message.js'
+import Confirm from '@/components/library/confirm.js'
 import defaultImg from '@/assets/images/200.png'
 // import XtxSkeleton from './xtx-skeleton.vue'
 // import XtxCarousel from './xtx-carousel.vue'
@@ -32,6 +33,7 @@ export default {
 
     // 定义一个原型函数
     app.config.globalProperties.$message = Message
+    app.config.globalProperties.$confirm = Confirm
   }
 }
 
