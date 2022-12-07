@@ -38,6 +38,8 @@ const router = useRouter()
 const logout = () => {
   // 清空 本地存储信息和vuex信息 跳转首页
   store.commit('user/setUser', {})
+  // // 清空购物车
+  store.commit('cart/setCart', [])
   router.push('/')
 }
 </script>

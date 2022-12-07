@@ -144,9 +144,12 @@ export default {
               nickname,
               token
             })
-            // 跳转
-            router.push(route.query.redirectUrl || '/')
-            Message({ type: 'success', text: 'QQ绑定成功!' })
+            // 合并本地购物车
+            store.dispatch('cart/mergeCart').then(() => {
+              // 跳转
+              router.push(route.query.redirectUrl || '/')
+              Message({ type: 'success', text: 'QQ绑定成功!' })
+            })
           })
           .catch((e) => {
             Message({

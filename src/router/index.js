@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import store from '@/store'
 
 const routes = [
   // 一级路由布局容器
@@ -46,4 +47,15 @@ const router = createRouter({
   }
 })
 
+// 前置导航守卫
+router.beforeEach((to, from, next) => {
+  // 需要登陆的路由，地址是以 /member 开头  约定好的
+  const { token } = store.state.user.profile
+  // 跳转去member开头的地址却没有登录
+  if (!token && to.path.startsWith('/member')) {
+    // next({ path: '/login', query: { redirectUrl: to.fullPath } })
+    next('/login?redirectUrl=' + encodeURIComponent(to.fullPath))
+  }
+  next()
+})
 export default router
