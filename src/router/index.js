@@ -32,6 +32,13 @@ const routes = [
       {
         path: '/member/pay',
         component: () => import('@/views/member/pay')
+      },
+      {
+        path: '/member',
+        component: () => import('@/views/member/Layout'),
+        children: [
+          { path: '/member', component: () => import('@/views/member/home') }
+        ]
       }
     ]
   },
