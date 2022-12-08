@@ -1,5 +1,6 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, RouterView } from 'vue-router'
 import store from '@/store'
+import { h } from 'vue'
 
 const routes = [
   // 一级路由布局容器
@@ -37,7 +38,29 @@ const routes = [
         path: '/member',
         component: () => import('@/views/member/Layout'),
         children: [
-          { path: '/member', component: () => import('@/views/member/home') }
+          { path: '/member', component: () => import('@/views/member/home') },
+          // {
+          //   path: '/member/order',
+          //   component: () => import('@/views/member/order')
+          // },
+          // {
+          //   path: '/member/order/:id',
+          //   component: () => import('@/views/member/order/detail.vue')
+          // }
+          {
+            path: '/member/order',
+            component: { render: () => h(RouterView) },
+            children: [
+              {
+                path: '',
+                component: () => import('@/views/member/order')
+              },
+              {
+                path: ':id',
+                component: () => import('@/views/member/order/detail.vue')
+              }
+            ]
+          }
         ]
       }
     ]
