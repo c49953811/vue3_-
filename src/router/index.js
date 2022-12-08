@@ -24,6 +24,14 @@ const routes = [
       {
         path: '/member/checkout',
         component: () => import('@/views/member/pay/checkout.vue')
+      },
+      {
+        path: '/pay/callback',
+        component: () => import('@/views/member/pay/result.vue')
+      },
+      {
+        path: '/member/pay',
+        component: () => import('@/views/member/pay')
       }
     ]
   },
