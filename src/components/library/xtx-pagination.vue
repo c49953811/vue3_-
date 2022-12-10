@@ -99,9 +99,11 @@ export default {
     )
     // 切换分页函数
     const changePager = (page) => {
-      myCurrentPage.value = page
-      // 通知父组件
-      emit('current-page', page)
+      if (myCurrentPage.value !== page) {
+        myCurrentPage.value = page
+        // 通知父组件
+        emit('current-page', page)
+      }
     }
     return { myCurrentPage, pager, changePager }
   }

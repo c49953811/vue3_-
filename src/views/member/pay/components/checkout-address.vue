@@ -14,17 +14,19 @@
         </li>
         <li>
           <span>收货地址：</span
-          >{{ showAddresss.fullLocation + showAddresss.address }}
+          >{{
+            showAddress.fullLocation.replace(/ /g, '') + showAddress.address
+          }}
         </li>
       </ul>
-      <a href="javascript:;">修改地址</a>
+      <a @click="openAddressEdit(showAddress)" href="javascript:;">修改地址</a>
     </div>
     <div class="action">
       <XtxButton @click="openDialog()" class="btn">切换地址</XtxButton>
-      <XtxButton class="btn">添加地址</XtxButton>
+      <XtxButton @click="openAddressEdit({})" class="btn">添加地址</XtxButton>
     </div>
   </div>
-  <!-- loading -->
+  <!-- 切换收货地址组件 -->
   <XtxDialog title="切换收货地址" v-model:visible="visibleDialog">
     <div
       @click="selectedAddress = item"
@@ -54,12 +56,15 @@
       <XtxButton @click="confirmAddressFn()" type="primary">确认</XtxButton>
     </template>
   </XtxDialog>
+  <!-- 收货地址编辑组件 -->
+  <AddressEdit @on-success="successHandler" ref="addressEditCom" />
 </template>
 <script>
 import { ref } from 'vue'
-
+import AddressEdit from './address-edit.vue'
 export default {
   name: 'CheckoutAddress',
+  components: { AddressEdit },
   props: {
     list: {
       type: Array,
@@ -102,12 +107,38 @@ export default {
       selectedAddress.value = null
       visibleDialog.value = true
     }
+
+    // 打开添加编辑收货地址组件
+    const addressEditCom = ref(null)
+    const openAddressEdit = (address) => {
+      addressEditCom.value.open(address)
+    }
+    // 自定义事件
+    const successHandler = (formData) => {
+      // formData的id
+      const address = props.list.find((item) => item.id === formData.id)
+      if (address) {
+        // 修改
+        for (const key in address) {
+          address[key] = formData[key]
+        }
+      } else {
+        // 如果是添加
+        // 因为是同一个引用地址，避免formData导致list修改，需要克隆
+        const jsonStr = JSON.stringify(formData)
+        // eslint-disable-next-line vue/no-mutating-props
+        props.list.unshift(JSON.parse(jsonStr))
+      }
+    }
     return {
       showAddress,
       visibleDialog,
       selectedAddress,
       confirmAddressFn,
-      openDialog
+      openDialog,
+      openAddressEdit,
+      addressEditCom,
+      successHandler
     }
   }
 }

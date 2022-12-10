@@ -10,4 +10,7 @@ import 'normalize.css'
 // 自己项目的重置样式
 import '@/assets/styles/common.less'
 
+// mockjs
+import '@/mock'
+
 createApp(App).use(store).use(router).use(UI).mount('#app')
