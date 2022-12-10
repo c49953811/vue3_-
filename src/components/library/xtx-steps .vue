@@ -1,17 +1,39 @@
-<template>
-  <div class="xtx-steps">
-    <div class="xtx-steps-item active" v-for="i in 5" :key="i">
-      <div class="step">
-        <span>{{ i }}</span>
-      </div>
-      <div class="title">提交订单</div>
-      <div class="desc">2021-03-18 02:11:47</div>
-    </div>
-  </div>
-</template>
 <script>
+import { getCurrentInstance } from 'vue'
 export default {
-  name: 'XtxSteps'
+  name: 'XtxSteps',
+  props: {
+    active: {
+      type: Number,
+      default: 1
+    }
+  },
+  render(props) {
+    const { ctx } = getCurrentInstance()
+    const items = ctx.$slots.default()
+    const dynamicItems = []
+    items.forEach((item) => {
+      if (item.type.name === 'XtxStepsItem') {
+        dynamicItems.push(item)
+      } else {
+        item.children.forEach((c) => {
+          dynamicItems.push(c)
+        })
+      }
+    })
+    const itemsJsx = dynamicItems.map((item, i) => {
+      return (
+        <div class="xtx-steps-item" class={{ active: i < props.active }}>
+          <div class="step">
+            <span>{i + 1}</span>
+          </div>
+          <div class="title">{item.props.title}</div>
+          <div class="desc">{item.props.desc}</div>
+        </div>
+      )
+    })
+    return <div class="xtx-steps">{itemsJsx}</div>
+  }
 }
 </script>
 <style lang="less">

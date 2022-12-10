@@ -111,7 +111,7 @@ export default {
   }
 }
 // 取消订单
-const useCancel = () => {
+export const useCancel = () => {
   const orderCancelCom = ref(null)
   const handlerCancel = (order) => {
     orderCancelCom.value.open(order)
@@ -119,7 +119,7 @@ const useCancel = () => {
   return { handlerCancel, orderCancelCom }
 }
 // 确认收货
-const useConfirm = () => {
+export const useConfirm = () => {
   const handlerConfirm = (order) => {
     confirm({ text: '您确认收到货吗？确认后货款将会打给卖家。' })
       .then(() => {
@@ -134,7 +134,7 @@ const useConfirm = () => {
   return { handlerConfirm }
 }
 // 查看物流
-const useLogistics = () => {
+export const useLogistics = () => {
   const orderLogisticsCom = ref(null)
   const handlerLogistics = (order) => {
     orderLogisticsCom.value.open(order)
